@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prise de RDV | Garage Le Général</title>
+<meta name="description" content="Prenez rendez-vous en ligne au Garage Le Général, 180, rue Galt Ouest, Sherbrooke. Changement d'huile, pneus, freins, diagnostic : choisissez votre heure en 1 minute.">
+
+<!-- Aperçu quand on partage le lien (Messages, Messenger, Facebook…) -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_CA">
+<meta property="og:site_name" content="Garage Le Général">
+<meta property="og:title" content="Prise de RDV – Garage Le Général">
+<meta property="og:description" content="Changement d'huile, pneus, freins, diagnostic : choisissez votre heure en 1 minute.">
+<meta property="og:image" content="https://garagelegeneral-180.github.io/prise-de-rdv/apercu.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://garagelegeneral-180.github.io/prise-de-rdv/">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Icône et nom sur l'écran d'accueil -->
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Prise de RDV">
+<meta name="application-name" content="Prise de RDV">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1b3a63">
+
+<style>
+  html, body { margin: 0; height: 100%; background: #f3f5f6; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
+  .secours { position: fixed; inset: 0; display: grid; place-content: center; gap: 14px; text-align: center; padding: 24px; color: #16222a; }
+  .secours img { width: 160px; height: auto; margin: 0 auto; }
+  .secours a { display: inline-block; background: #f2a516; color: #2a1c00; font-weight: 700; padding: 14px 26px; border-radius: 8px; text-decoration: none; }
+</style>
+</head>
+<body>
+  <!-- Texte de secours, visible le temps que la réservation se charge ou si elle ne peut pas s'afficher -->
+  <div class="secours">
+    <img src="logo.png" alt="Garage Le Général – Pneus et mécanique">
+    <strong>Prise de RDV</strong>
+    <a href="https://script.google.com/macros/s/AKfycbxFp3OZiZPGePBxwsTuoEXEIblfnzKI1sZw_Ff3opRW5dSa8CZoIWzm6a9C2zwHJp4r/exec">Prendre rendez-vous</a>
+    <small>180, rue Galt Ouest, Sherbrooke · 819 239-7671</small>
+  </div>
+  <!-- La réservation (page Google) s'affiche ici, par-dessus le texte de secours -->
+  <iframe src="https://script.google.com/macros/s/AKfycbxFp3OZiZPGePBxwsTuoEXEIblfnzKI1sZw_Ff3opRW5dSa8CZoIWzm6a9C2zwHJp4r/exec"
+          title="Prise de rendez-vous au Garage Le Général" allow="clipboard-write"></iframe>
+</body>
+</html>
