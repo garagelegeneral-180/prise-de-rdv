@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr-CA">
 <head>
-<script>if(/FBAN|FBAV|FB_IAB|FBIOS|FB4A|Messenger|Instagram|MicroMessenger|TikTok|musical_ly|Snapchat|Line\/|Twitter/i.test(navigator.userAgent))location.replace("https://script.google.com/macros/s/AKfycbxFp3OZiZPGePBxwsTuoEXEIblfnzKI1sZw_Ff3opRW5dSa8CZoIWzm6a9C2zwHJp4r/exec");</script>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Prise de RDV | Garage Le Général</title>
 <meta name="description" content="Prenez rendez-vous en ligne au Garage Le Général, 180, rue Galt Ouest, Sherbrooke. Changement d'huile, pneus, freins, diagnostic : choisissez votre heure en 1 minute.">
 
@@ -29,24 +28,463 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#004e76">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
-  html, body { margin: 0; height: 100%; background: #f3f5f6; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
-  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
-  .secours { position: fixed; inset: 0; display: grid; place-content: center; gap: 14px; text-align: center; padding: 24px; color: #16222a; }
-  .secours img { width: 160px; height: auto; margin: 0 auto; }
-  .secours a { display: inline-block; background: #f2a516; color: #2a1c00; font-weight: 700; padding: 14px 26px; border-radius: 8px; text-decoration: none; }
+:root{
+  --bg:#f3f5f6; --panel:#ffffff; --line:#d6dde1; --ink:#16222a; --muted:#5a6a74;
+  --accent:#0d5f73; --accent-ink:#ffffff; --pick:#f2a516; --pick-ink:#2a1c00;
+  --ok:#1f7a43; --err:#b42318; --soft:#e3eef1;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Source Sans 3","Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f161a; --panel:#172126; --line:#2b3a42; --ink:#e5ecef; --muted:#93a4ad;
+  --accent:#4fb3c9; --accent-ink:#06222a; --pick:#f2b33a; --pick-ink:#2a1c00;
+  --ok:#5cc489; --err:#f2786c; --soft:#1d3239; color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;padding-inline:16px;padding-block:24px 0}
+.wrap{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+header{display:grid;gap:4px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(2rem,4vw,2.6rem);line-height:1.05;margin:0;text-wrap:balance}
+.marque{display:flex;align-items:center;gap:14px}.logo{height:62px;width:auto;flex:0 0 auto}
+@media (max-width:420px){.logo{height:50px}}
+.addr{color:var(--muted);font-size:.95rem;display:flex;flex-wrap:wrap;gap:4px 14px}
+.banner{background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:.92rem}
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;align-items:start}
+@media (min-width:880px){.layout{grid-template-columns:minmax(0,1fr) 300px}}
+main{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;min-width:0}
+ol.progress{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.progress li{display:grid;gap:6px;font-size:.78rem;color:var(--muted);font-weight:600}
+.progress li::before{content:"";height:4px;border-radius:2px;background:var(--line)}
+.progress li.on{color:var(--ink)} .progress li.on::before{background:var(--accent)}
+section.pane{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;display:grid;gap:14px;min-width:0}
+h2{font-family:var(--f-display);font-weight:600;font-size:1.6rem;margin:0;line-height:1.1}
+.sub{color:var(--muted);margin:-6px 0 0;font-size:.95rem}
+button{font:inherit;font-weight:600;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:10px 14px;cursor:pointer;min-height:44px}
+button:hover:not(:disabled){border-color:var(--accent)}
+button:focus-visible,input:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.svc{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.svc button{display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:left;padding:14px 16px}
+.svc button .t{display:grid;gap:2px;flex:1;min-width:0}
+.svc button .t small{font-weight:400;color:var(--muted);font-size:.88rem}
+.svc button .m{font-family:var(--f-mono);font-size:.85rem;color:var(--muted);white-space:nowrap}
+.svc button .box{width:22px;height:22px;border-radius:6px;border:2px solid var(--line);flex:0 0 auto;display:grid;place-items:center;font-size:.85rem;color:transparent}
+.svc button[aria-pressed="true"]{border-color:var(--accent);background:var(--soft)}
+.svc button[aria-pressed="true"] .box{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg button{display:grid;gap:2px;text-align:left;padding:12px 14px}
+.seg button small{font-weight:400;color:var(--muted);font-size:.85rem}
+.seg button[aria-pressed="true"]{border-color:var(--accent);background:var(--soft);box-shadow:inset 0 0 0 1px var(--accent)}
+@media (max-width:460px){.seg{grid-template-columns:1fr}}
+.days{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.day{flex:0 0 auto;min-width:72px;display:grid;gap:2px;justify-items:center;padding:8px 10px}
+.day .d{font-family:var(--f-display);font-size:1.1rem}
+.day .c{font-size:.75rem;color:var(--muted);font-weight:400}
+.day[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.day[aria-pressed="true"] .c{color:var(--accent-ink)}
+.day:disabled{opacity:.45;cursor:not-allowed}
+.grp h3{margin:0 0 6px;font-size:.78rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px}
+.slot{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.slot[aria-pressed="true"]{background:var(--pick);border-color:var(--pick);color:var(--pick-ink)}
+.fields{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.fields .full{grid-column:1/-1}
+label{display:grid;gap:4px;font-size:.88rem;color:var(--muted)}
+input,textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;min-width:0}
+.trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.recap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;margin:0;font-size:.95rem}
+.recap dt{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.recap dd{margin:0;overflow-wrap:anywhere}
+.muted{color:var(--muted);font-size:.92rem;margin:0}
+.err{color:var(--err);margin:0}
+.loading{color:var(--muted);font-size:.95rem}
+.bar{position:sticky;bottom:0;z-index:5;margin-inline:-16px;background:var(--panel);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+.bar .in{display:flex;align-items:center;gap:10px}
+.bar .info{flex:1;min-width:0;font-size:.9rem;color:var(--muted)}
+.bar .info b{display:block;color:var(--ink);font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (min-width:880px){
+  .bar{position:static;margin:0;border:0;background:none;padding:0}
+  .bar .info{visibility:hidden}
+}
+.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);padding:12px 22px;font-size:1.02rem}
+.primary:disabled{opacity:.45;cursor:not-allowed}
+.ghost{background:none}
+aside.side{display:none}
+@media (min-width:880px){aside.side{display:grid;gap:12px;position:sticky;top:16px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px}}
+aside.side h2{font-size:1.3rem}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding-top:10px;font-weight:600}
+.total span:last-child{font-family:var(--f-mono)}
+.done{border-color:var(--ok)} .done h2{color:var(--ok)}
+.cal{color:var(--accent);font-weight:600}
+.accueil{border-color:var(--accent);background:var(--soft)}
+.accueil ol li{margin:4px 0}
+.foot{padding-block:24px 32px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-  <!-- Texte de secours, visible le temps que la réservation se charge ou si elle ne peut pas s'afficher -->
-  <div class="secours">
-    <img src="logo.png" alt="Garage Le Général – Pneus et mécanique">
-    <strong>Prise de RDV</strong>
-    <a href="https://script.google.com/macros/s/AKfycbxFp3OZiZPGePBxwsTuoEXEIblfnzKI1sZw_Ff3opRW5dSa8CZoIWzm6a9C2zwHJp4r/exec">Prendre rendez-vous</a>
-    <small>180, rue Galt Ouest, Sherbrooke · 819 239-7671</small>
+<div class="wrap">
+  <header>
+    <div class="marque">
+      <img class="logo" src="logo.png" alt="Garage Le Général – Pneus et mécanique" width="85" height="62">
+      <div><span class="eyebrow">Garage Le Général</span><h1>Prise de RDV</h1></div>
+    </div>
+    <div class="addr"><span>180, rue Galt Ouest, Sherbrooke</span><span>Lun. au ven., 9 h à 17 h</span><span class="tel"></span></div>
+  </header>
+  <div class="banner" id="demoBanner" hidden>Aperçu avec des plages d'exemple : la réservation en ligne n'est pas disponible pour le moment. Appelez-nous au <span class="tel"></span>.</div>
+
+  <div class="layout">
+    <main>
+      <ol class="progress" id="progress"><li>Travaux</li><li>Véhicule</li><li>Moment</li><li>Coordonnées</li></ol>
+
+      <section class="pane" data-step="0">
+        <h2>De quoi votre véhicule a-t-il besoin?</h2>
+        <p class="sub">Choisissez un ou plusieurs travaux. Le temps est une estimation.</p>
+        <div class="svc" id="services"></div>
+        <div id="diagQ" hidden style="display:grid;gap:8px">
+          <span style="font-weight:600">Le problème a-t-il déjà été diagnostiqué chez nous?</span>
+          <div class="seg" id="diagSeg">
+            <button type="button" data-v="true" aria-pressed="false">Oui, déjà diagnostiqué<small>On passe directement aux travaux</small></button>
+            <button type="button" data-v="false" aria-pressed="false">Non, pas encore<small>On fait le diagnostic avant la réparation</small></button>
+          </div>
+        </div>
+        <label id="autreLbl" hidden><span id="autreTitre">Décrivez le problème</span><textarea id="autre" rows="2" maxlength="300" placeholder="Bruit en freinant, voyant moteur allumé…"></textarea></label>
+      </section>
+
+      <section class="pane" data-step="1" hidden>
+        <h2>Votre véhicule</h2>
+        <div class="fields">
+          <label>Année<input id="vAnnee" inputmode="numeric" maxlength="4" placeholder="2019"></label>
+          <label>Marque<input id="vMarque" maxlength="40" placeholder="Toyota"></label>
+          <label>Modèle<input id="vModele" maxlength="40" placeholder="RAV4"></label>
+          <label class="full" id="pneuLbl" hidden>Vos pneus d'hiver<input id="vPneus" maxlength="120" placeholder="Dans mon auto, ou entreposés au garage"></label>
+        </div>
+        <h2 style="font-size:1.25rem">Pendant les travaux</h2>
+        <div class="seg" id="mode">
+          <button type="button" data-v="attente" aria-pressed="true">J'attends sur place<small>Idéal pour les travaux d'une heure ou moins</small></button>
+          <button type="button" data-v="depot" aria-pressed="false">Je laisse mon véhicule<small>On vous appelle quand c'est prêt</small></button>
+        </div>
+      </section>
+
+      <section class="pane" data-step="2" hidden>
+        <h2>Quand voulez-vous venir?</h2>
+        <p class="sub" id="whenSub"></p>
+        <p class="loading" id="loading">Recherche des heures libres…</p>
+        <div class="days" id="days"></div>
+        <div id="slots" style="display:grid;gap:12px"></div>
+        <p class="muted" id="slotHint"></p>
+      </section>
+
+      <section class="pane" data-step="3" hidden>
+        <h2>Vos coordonnées</h2>
+        <div class="fields">
+          <label class="full">Nom complet<input id="nom" autocomplete="name" maxlength="80"></label>
+          <label>Cellulaire<input id="tel" type="tel" inputmode="tel" autocomplete="tel"></label>
+          <label>Courriel (optionnel)<input id="courriel" type="email" autocomplete="email" maxlength="120"></label>
+          <label class="trap" aria-hidden="true">Site web<input id="site" tabindex="-1" autocomplete="off"></label>
+        </div>
+        <p class="muted">La confirmation de votre rendez-vous vous sera envoyée par texto à ce numéro. Inscrivez un numéro de cellulaire.</p>
+        <label>Autre chose à nous dire? (optionnel)<textarea id="notes" rows="2" maxlength="300"></textarea></label>
+        <dl class="recap" id="recap"></dl>
+        <p class="err" id="msg" role="alert" hidden></p>
+      </section>
+
+      <section class="pane done" id="done" hidden>
+        <h2>C'est réservé!</h2>
+        <p id="doneTxt" style="margin:0"></p>
+        <p class="muted" id="doneMail"></p>
+        <a class="cal" id="calLink" target="_blank" rel="noopener">Ajouter à mon agenda Google</a>
+        <p class="muted">Pour changer ou annuler, appelez-nous au <span class="tel"></span>.</p>
+      </section>
+
+      <section class="pane accueil" id="accueil" hidden>
+        <h2 style="font-size:1.3rem">📱 Votre prochain rendez-vous en 1 minute</h2>
+        <p style="margin:0">Ajoutez notre page de rendez-vous à l'écran d'accueil de votre téléphone. Elle s'ouvrira comme une application.</p>
+        <ol id="accueilEtapes" style="margin:0;padding-left:20px"></ol>
+        <button type="button" class="ghost" id="accueilFermer" style="justify-self:start">Plus tard</button>
+      </section>
+
+      <div class="bar" id="bar">
+        <div class="in">
+          <button type="button" class="ghost" id="back" hidden>Retour</button>
+          <div class="info" id="barInfo"><b>Choisissez vos travaux</b></div>
+          <button type="button" class="primary" id="next" disabled>Continuer</button>
+        </div>
+      </div>
+    </main>
+
+    <aside class="side" id="side">
+      <h2>Votre rendez-vous</h2>
+      <dl class="recap" id="sideRecap"></dl>
+      <div class="total"><span>Temps estimé</span><span id="sideDur">—</span></div>
+    </aside>
   </div>
-  <!-- La réservation (page Google) s'affiche ici, par-dessus le texte de secours -->
-  <iframe src="https://script.google.com/macros/s/AKfycbxFp3OZiZPGePBxwsTuoEXEIblfnzKI1sZw_Ff3opRW5dSa8CZoIWzm6a9C2zwHJp4r/exec"
-          title="Prise de rendez-vous au Garage Le Général" allow="clipboard-write"></iframe>
+  <div class="foot"></div>
+</div>
+
+<script>
+/* ===== Réglages affichés (les vrais réglages sont dans Code.gs) ===== */
+const TEL_GARAGE = "819 239-7671";
+const OUVERTURE = 9 * 60, FERMETURE = 17 * 60, DERNIER_DEBUT = 16 * 60, DERNIER_DEBUT_VENDREDI = 14 * 60, PAS_MIN = 30, CAPACITE = 3, MIDI = [720, 780];
+const dernierDebut = day => new Date(day + "T12:00:00Z").getUTCDay() === 5 ? DERNIER_DEBUT_VENDREDI : DERNIER_DEBUT;
+const SERVICES = [ /* [nom, minutes, précision] — mêmes noms que dans Code.gs */
+  ["Changement d'huile", 30, "Huile et filtre, avec inspection du véhicule incluse"],
+  ["Pose de pneus", 30, "Pose et équilibrage, pneus d'été ou d'hiver"],
+  ["Inspection", 45, "Inspection complète du véhicule"],
+  ["Freins avant", 60, "Plaquettes et disques avant"],
+  ["Freins arrière", 60, "Plaquettes, disques ou tambours arrière"],
+  ["Direction et suspension", 60, "Rotules, biellettes, amortisseurs, bruits en tournant"],
+  ["Diagnostic", 45, "Voyant allumé, bruit, comportement inhabituel"],
+  ["Réparation d'échappement", 90, "Silencieux, tuyau, bruit d'échappement"],
+  ["Autre", 60, "Tout autre problème mécanique : décrivez-le-nous"]
+];
+
+const st = { step: 0, demo: false, ready: false, servs: [], dejaDiag: null, mode: "attente", day: null, slot: null, appts: [], bays: [], jours: [], done: false, busy: false };
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const toMin = t => { const [h, m] = String(t || "0:0").split(":"); return (+h) * 60 + (+m || 0); };
+const fmt = m => String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
+const fmtFr = m => Math.floor(m / 60) + " h " + String(m % 60).padStart(2, "0");
+const dureeTxt = m => m < 60 ? m + " min" : Math.floor(m / 60) + " h" + (m % 60 ? " " + String(m % 60).padStart(2, "0") : "");
+/* Temps réservé (même calcul dans Code.gs et Index.html) :
+   huile seule 30 min, pneus seuls 30 min, huile + pneus 45 min au total ;
+   diagnostic 45 min ; freins 1 h par essieu (2 roues) ; direction/suspension 1 h ; échappement 1 h 30 ; autre 1 h.
+   Réparations mécaniques (freins, direction/suspension, échappement, autre) : si le problème n'a pas déjà été
+   diagnostiqué, on facture 0,5 h de diagnostic de plus, une seule fois, sans bloquer de temps dans l'agenda.
+   Ex. freins 2 roues : agenda 1 h, facturé 1 h (déjà diag) ou 1,5 h ; 4 roues : agenda 2 h, facturé 2 h ou 2,5 h.
+   min = temps bloqué dans l'agenda ; h = heures facturées (si différent). */
+const DIAG_REQUIS = ["Freins avant", "Freins arrière", "Direction et suspension", "Réparation d'échappement", "Autre"];
+const requiertDiag = n => DIAG_REQUIS.indexOf(n) >= 0;
+function travaux(servs, dejaDiag) {
+  const out = servs.map(n => ({ n, min: SERVICES.find(s => s[0] === n)[1] }));
+  const pneus = out.find(x => x.n === "Pose de pneus");
+  if (pneus && servs.includes("Changement d'huile")) pneus.min = 15;
+  const reparation = servs.some(requiertDiag);
+  if (reparation && dejaDiag !== true && !servs.includes("Diagnostic")) out.push({ n: "Diagnostic", min: 0, h: 0.5, diagAjoute: true });
+  return out;
+}
+const aReparation = () => st.servs.some(requiertDiag);
+/* Le champ « Décrivez le problème » apparaît dès qu'il y a un diagnostic (obligatoire seulement pour « Autre ») */
+const besoinProbleme = () => st.servs.includes("Autre") || st.servs.includes("Diagnostic") || (aReparation() && st.dejaDiag === false);
+const dur = () => travaux(st.servs, st.dejaDiag).reduce((t, l) => t + l.min, 0);
+const dayDate = iso => new Date(iso + "T12:00");
+const dayLong = iso => dayDate(iso).toLocaleDateString("fr-CA", { weekday: "long", day: "numeric", month: "long" });
+document.querySelectorAll(".tel").forEach(e => e.textContent = TEL_GARAGE);
+
+/* ===== Lien avec le script Google (Code.gs) ===== */
+/* Ouverte dans Google : google.script.run. Ouverte sur GitHub (Facebook, Messenger…) : le « moteur » du script. */
+const API_RDV = "https://script.google.com/macros/s/AKfycbxFp3OZiZPGePBxwsTuoEXEIblfnzKI1sZw_Ff3opRW5dSa8CZoIWzm6a9C2zwHJp4r/exec";
+const serveur = (fn, ...args) => {
+  if (window.google && google.script && google.script.run) return new Promise((ok, ko) =>
+    google.script.run.withSuccessHandler(ok).withFailureHandler(ko)[fn](...args));
+  const req = fn === "getDispos"
+    ? fetch(API_RDV + "?api=dispos&_=" + Date.now())
+    : fetch(API_RDV, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ api: "reserver", f: args[0] }) });
+  return req
+    .then(r => r.json(), () => { throw new Error("Connexion impossible. Vérifiez votre Internet et réessayez."); })
+    .then(j => { if (!j || j.erreur || !j.ok) throw new Error((j && j.erreur) || "Réponse invalide du serveur."); return j.data; });
+};
+const msgErreur = e => String((e && e.message) || e || "").replace(/^(Error|Exception|Erreur)\s*:\s*/i, "");
+
+async function loadDispos() {
+  const r = await serveur("getDispos");
+  st.appts = r.appts || []; st.bays = r.bays || []; st.jours = r.jours || [];
+}
+function demo() {
+  st.demo = true; $("demoBanner").hidden = false;
+  const d = new Date(); d.setHours(12, 0, 0, 0); const j = [];
+  while (j.length < 10) { d.setDate(d.getDate() + 1); if (d.getDay() > 0 && d.getDay() < 6) j.push(d.toISOString().slice(0, 10)); }
+  st.jours = j; st.bays = [1, 2, 3];
+  st.appts = [{ bay_id: 1, date_at: j[0], time_at: "09:00:00", date_end: j[0], time_end: "12:00:00" },
+              { bay_id: 2, date_at: j[0], time_at: "09:00:00", date_end: j[0], time_end: "15:00:00" },
+              { bay_id: 1, date_at: j[1], time_at: "13:00:00", date_end: j[1], time_end: "17:00:00" }];
+}
+/* Portes permises selon les travaux (même tableau que dans Code.gs) */
+const PORTES_TRAVAUX = {
+  "Changement d'huile": [3, 1, 2], "Pose de pneus": [3, 1, 2],
+  "Inspection": [2, 1, 3], "Freins avant": [2, 1, 3], "Freins arrière": [2, 1, 3], "Direction et suspension": [2, 1, 3],
+  "Diagnostic": [2, 1, 3], "Réparation d'échappement": [2, 3, 1], "Autre": [2, 1, 3]
+};
+function portesPour(servs) {
+  const listes = servs.map(n => PORTES_TRAVAUX[n]).filter(Boolean);
+  if (!listes.length) return st.bays.slice();
+  const principale = listes.find(l => l[0] === 2) || listes[0];
+  return principale.filter(b => st.bays.includes(b) && listes.every(l => l.includes(b)));
+}
+function freeSlots(day) {
+  const len = dur() || 30, res = [], ordre = portesPour(st.servs);
+  const busy = st.bays.map(b => ({ b, busy: st.appts.filter(a => +a.bay_id === +b && a.date_at <= day && day <= (a.date_end || a.date_at))
+    .map(a => [a.date_at === day ? toMin(a.time_at) : OUVERTURE, (a.date_end || a.date_at) === day ? toMin(a.time_end) : FERMETURE]) }));
+  const fin = dernierDebut(day);
+  for (let t = OUVERTURE; t + len <= FERMETURE && t <= fin; t += PAS_MIN) {
+    if (t < MIDI[1] && t + len > MIDI[0]) continue;
+    const libres = busy.filter(x => !x.busy.some(([s, e]) => t < e && t + len > s));
+    if (st.bays.length - libres.length < CAPACITE && libres.some(x => ordre.includes(+x.b))) res.push({ t });
+  }
+  return res;
+}
+
+/* ===== Mémoire locale (visiteur qui revient) ===== */
+function remember() { try { localStorage.setItem("glg-client", JSON.stringify({ nom: $("nom").value, tel: $("tel").value, courriel: $("courriel").value, a: $("vAnnee").value, m: $("vMarque").value, mo: $("vModele").value })); } catch {} }
+function recall() { try { const s = JSON.parse(localStorage.getItem("glg-client") || "null"); if (!s) return; $("nom").value = s.nom || ""; $("tel").value = s.tel || ""; $("courriel").value = s.courriel || ""; $("vAnnee").value = s.a || ""; $("vMarque").value = s.m || ""; $("vModele").value = s.mo || ""; } catch {} }
+
+/* ===== Rendu ===== */
+function renderServices() {
+  $("services").innerHTML = "";
+  SERVICES.forEach(([nom, m, p]) => {
+    const on = st.servs.includes(nom);
+    const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-pressed", on);
+    b.innerHTML = `<span class="box">✓</span><span class="t">${esc(nom)}<small>${esc(p)}</small></span><span class="m">${dureeTxt(m)}</span>`;
+    b.onclick = () => { st.servs = on ? st.servs.filter(x => x !== nom) : [...st.servs, nom]; st.slot = null; renderServices(); update(); };
+    $("services").append(b);
+  });
+  $("autreLbl").hidden = !besoinProbleme();
+  $("autreTitre").textContent = st.servs.includes("Autre") ? "Décrivez le problème" : "Décrivez le problème (optionnel)";
+  $("diagQ").hidden = !aReparation();
+  [...$("diagSeg").children].forEach(x => x.setAttribute("aria-pressed", String(st.dejaDiag) === x.dataset.v));
+  $("pneuLbl").hidden = !st.servs.includes("Pose de pneus");
+}
+function renderDays() {
+  $("loading").hidden = st.ready;
+  const box = $("days"); box.innerHTML = "";
+  const box2 = $("slots"); box2.innerHTML = "";
+  $("whenSub").textContent = `Durée estimée : ${dureeTxt(dur())}` + (st.mode === "depot" ? " · choisissez l'heure où vous déposez le véhicule" : "");
+  if (!st.ready) { $("slotHint").textContent = ""; return; }
+  if (st.day && !freeSlots(st.day).length) st.day = null;
+  st.jours.forEach(iso => {
+    const d = dayDate(iso), n = freeSlots(iso).length;
+    if (!st.day && n) st.day = iso;
+    const b = document.createElement("button"); b.type = "button"; b.className = "day"; b.disabled = !n;
+    b.setAttribute("aria-pressed", st.day === iso);
+    b.innerHTML = `<span class="c">${d.toLocaleDateString("fr-CA", { weekday: "short" })}</span><span class="d">${d.getDate()} ${d.toLocaleDateString("fr-CA", { month: "short" })}</span><span class="c">${n ? "dispo" : "complet"}</span>`;
+    b.onclick = () => { st.day = iso; st.slot = null; renderDays(); update(); };
+    box.append(b);
+  });
+  const list = st.day ? freeSlots(st.day) : [];
+  $("slotHint").textContent = list.length ? "" : `Aucune heure libre pour cette durée. Appelez-nous au ${TEL_GARAGE}.`;
+  [["Matin", s => s.t < 720], ["Après-midi", s => s.t >= 720]].forEach(([lbl, f]) => {
+    const part = list.filter(f); if (!part.length) return;
+    const g = document.createElement("div"); g.className = "grp"; g.innerHTML = `<h3>${lbl}</h3>`;
+    const grid = document.createElement("div"); grid.className = "slots";
+    part.forEach(s => {
+      const b = document.createElement("button"); b.type = "button"; b.className = "slot";
+      b.setAttribute("aria-pressed", !!(st.slot && st.slot.t === s.t));
+      b.textContent = fmt(s.t);
+      b.onclick = () => { st.slot = s; renderDays(); update(); };
+      grid.append(b);
+    });
+    g.append(grid); box2.append(g);
+  });
+}
+const vehTxt = () => [$("vAnnee").value, $("vMarque").value, $("vModele").value].map(x => x.trim()).filter(Boolean).join(" ");
+function recapRows() {
+  return [["Travaux", st.servs.length ? st.servs.join(", ") : "—"], ["Véhicule", vehTxt() || "—"],
+    ["Quand", st.slot ? `${dayLong(st.day)} à ${fmtFr(st.slot.t)}` : "—"], ["Pendant", st.mode === "depot" ? "Vous laissez le véhicule" : "Vous attendez sur place"]]
+    .map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("");
+}
+const telOk = () => /^1?\d{10}$/.test($("tel").value.replace(/\D/g, ""));
+const mailOk = () => { const v = $("courriel").value.trim(); return !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); };
+function canNext() {
+  if (st.busy) return false;
+  if (st.step === 0) return st.servs.length > 0 && (!st.servs.includes("Autre") || $("autre").value.trim()) && (!aReparation() || st.dejaDiag !== null);
+  if (st.step === 1) return !!vehTxt();
+  if (st.step === 2) return !!st.slot;
+  if (st.step === 3) return $("nom").value.trim() && telOk() && mailOk() && !st.demo;
+  return false;
+}
+function update() {
+  document.querySelectorAll(".pane[data-step]").forEach(p => p.hidden = st.done || +p.dataset.step !== st.step);
+  [...$("progress").children].forEach((li, i) => li.classList.toggle("on", i <= st.step));
+  $("progress").hidden = st.done;
+  $("back").hidden = st.step === 0 || st.done;
+  if (!st.busy) $("next").textContent = st.step === 3 ? (st.demo ? "Réservation non disponible" : "Confirmer le rendez-vous") : "Continuer";
+  $("next").disabled = !canNext();
+  const m = dur();
+  $("barInfo").innerHTML = st.servs.length
+    ? `<b>${esc(st.servs.length > 1 ? st.servs.length + " travaux" : st.servs[0])} · ${dureeTxt(m)}</b>${st.slot ? esc(dayLong(st.day) + " à " + fmtFr(st.slot.t)) : "Temps estimé"}`
+    : `<b>Choisissez vos travaux</b>`;
+  $("recap").innerHTML = recapRows(); $("sideRecap").innerHTML = recapRows();
+  $("sideDur").textContent = m ? dureeTxt(m) : "—";
+  $("bar").hidden = st.done;
+}
+function go(n) {
+  st.step = n;
+  if (n === 2) renderDays();
+  update();
+  try { document.querySelector("header").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); } catch {}
+}
+
+/* ===== Actions ===== */
+$("back").onclick = () => go(st.step - 1);
+$("next").onclick = () => { if (st.step < 3) go(st.step + 1); else book(); };
+["autre", "vAnnee", "vMarque", "vModele", "nom", "tel", "courriel"].forEach(id => $(id).addEventListener("input", update));
+$("diagSeg").onclick = e => { const b = e.target.closest("button"); if (!b) return; st.dejaDiag = b.dataset.v === "true"; st.slot = null; renderServices(); update(); };
+$("mode").onclick = e => { const b = e.target.closest("button"); if (!b) return; st.mode = b.dataset.v; [...$("mode").children].forEach(x => x.setAttribute("aria-pressed", x === b)); update(); };
+
+async function book() {
+  const msg = $("msg"); msg.hidden = true;
+  st.busy = true; $("next").textContent = "Réservation…"; update();
+  try {
+    const r = await serveur("reserver", {
+      nom: $("nom").value, tel: $("tel").value, courriel: $("courriel").value, site: $("site").value,
+      servs: st.servs, dejaDiag: st.dejaDiag === true, autre: $("autreLbl").hidden ? "" : $("autre").value, annee: $("vAnnee").value, marque: $("vMarque").value, modele: $("vModele").value,
+      pneus: $("pneuLbl").hidden ? "" : $("vPneus").value, mode: st.mode, notes: $("notes").value,
+      day: st.day, t: st.slot.t
+    });
+    remember();
+    st.busy = false; st.done = true; update(); $("done").hidden = false;
+    inviterAccueil();
+    $("doneTxt").textContent = `${st.servs.join(", ")}, ${dayLong(r.day)} à ${fmtFr(r.t)}. À bientôt au 180, rue Galt Ouest!`;
+    const mail = $("courriel").value.trim();
+    $("doneMail").textContent = [
+      "Vous recevrez la confirmation par texto à votre cellulaire.",
+      mail && `Un courriel de confirmation a été envoyé à ${mail} (vérifiez vos courriels indésirables).`
+    ].filter(Boolean).join(" ");
+    const z = m => r.day.replace(/-/g, "") + "T" + fmt(m).replace(":", "") + "00";
+    $("calLink").href = "https://calendar.google.com/calendar/render?" + new URLSearchParams({
+      action: "TEMPLATE", text: "Garage Le Général – " + st.servs.join(", "), dates: z(r.t) + "/" + z(r.t + r.duree),
+      ctz: "America/Toronto", location: "180 rue Galt Ouest, Sherbrooke, QC", details: "Pour changer ou annuler : " + TEL_GARAGE
+    }).toString();
+  } catch (err) {
+    st.busy = false;
+    let texte = msgErreur(err);
+    if (texte.includes("PRIS:")) {
+      texte = texte.split("PRIS:")[1];
+      st.slot = null;
+      try { await loadDispos(); } catch {}
+      go(2);
+    }
+    msg.textContent = texte || `La réservation n'a pas pu être enregistrée. Appelez-nous au ${TEL_GARAGE}.`;
+    msg.hidden = false;
+    if (st.step === 2) { $("slotHint").textContent = msg.textContent; }
+    update();
+  }
+}
+
+/* ===== Invitation : ajouter la page à l'écran d'accueil ===== */
+function inviterAccueil() {
+  try { if (localStorage.getItem("glg-accueil-ferme")) return; } catch {}
+  const ua = navigator.userAgent || "";
+  const ios = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  const android = /Android/i.test(ua);
+  const etapes = ios
+    ? ["Touchez le bouton <b>Partager</b> (le carré avec une flèche vers le haut) en bas de Safari.", "Choisissez <b>« Sur l'écran d'accueil »</b>.", "Touchez <b>Ajouter</b>."]
+    : android
+    ? ["Touchez le menu <b>⋮</b> en haut à droite de Chrome.", "Choisissez <b>« Ajouter à l'écran d'accueil »</b> (ou « Installer l'application »).", "Touchez <b>Ajouter</b>."]
+    : ["Sur votre téléphone, ouvrez cette page, puis ajoutez-la à l'écran d'accueil.", "Sur ordinateur, ajoutez-la à vos favoris (Cmd+D ou Ctrl+D)."];
+  $("accueilEtapes").innerHTML = etapes.map(e => `<li>${e}</li>`).join("");
+  $("accueil").hidden = false;
+}
+$("accueilFermer").onclick = () => { $("accueil").hidden = true; try { localStorage.setItem("glg-accueil-ferme", "1"); } catch {} };
+
+recall(); renderServices(); update();
+loadDispos().catch(demo).finally(() => { st.ready = true; if (st.step === 2) renderDays(); update(); });
+</script>
 </body>
 </html>
